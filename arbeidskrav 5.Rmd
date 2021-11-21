@@ -1,0 +1,90 @@
+---
+title: "Arbeidskrav 5"
+output:
+  pdf_document: default
+  html_document: default
+editor_options:
+  chunk_output_type: console
+---
+
+```{r, echo = FALSE, eval = FALSE, warning = FALSE} 
+library(exscidata)
+data("dxadata"); data("strengthvolume")
+```
+
+
+```{r, echo = FALSE, eval = FALSE, warning = FALSE} 
+library(tidyverse); library(exscidata)
+data("dxadata")
+
+sdata <- dxadata %>%
+  select(participant:include, lean.left_leg, lean.right_leg) %>%
+  pivot_longer(names_to = "leg", 
+               values_to = "lean.mass", 
+               cols = lean.left_leg:lean.right_leg) %>%
+  mutate(leg = if_else(leg == "lean.left_leg", "L", "R"), 
+         sets = if_else(multiple == leg, "multiple", "single")) %>%
+  select(participant, time, sex, include, sets, leg, lean.mass) %>%
+  pivot_wider(names_from = time, 
+              values_from = lean.mass) %>%
+  mutate(lbm_endring = post - pre) %>%
+  mutate(prosentvis.endring = ((post - pre) / pre) * 100) %>%
+  filter(!is.na(lbm_endring)) %>%
+
+  print()
+
+sdata %>%  
+  group_by(sets) %>% 
+summarise(m = mean(prosentvis.endring),
+            sd = sd(prosentvis.endring)) %>%
+  
+print()
+
+
+
+```
+
+```{r, echo = FALSE, eval = FALSE, warning = FALSE, message = FALSE} 
+styrke.s <- strengthvolume %>%
+  filter(!is.na(load)) %>%
+  group_by(exercise) %>%
+  mutate(scaled.load = load / max(load, na.rm = TRUE)) %>%
+  group_by(participant, time, sex, sets) %>%
+  summarise(combined.load = mean(scaled.load, na.rm = TRUE)) %>%
+  ungroup() %>%
+  pivot_wider(names_from = time,
+              values_from = combined.load) %>%
+  mutate(prosentvis.endring = ((post - pre) / pre) * 100) %>%
+    print()
+  
+    
+  
+  styrke.s %>% 
+    filter(!is.na(post)) %>%
+    group_by(sets) %>%
+    summarise(gjennomsnitt = mean(prosentvis.endring),
+              sd = sd(prosentvis.endring)) 
+    
+  
+
+```
+
+```{r, echo = FALSE, eval = FALSE, warning = FALSE}
+modell <- strengthvolume %>%
+  group_by(exercise) %>%
+  mutate(scaled.load = load / max(load, na.rm = TRUE)) %>%
+  group_by(participant, time, sex, sets) %>%
+  summarise(combined.load = mean(scaled.load, na.rm = TRUE)) %>%
+  ungroup() %>%
+  print()
+
+modell %>%
+  filter(!is.na(combined.load), time == factor(time, levels = c("pre", "post"))) %>%
+  mutate(time = factor(time, levels = c("pre", "post")), 
+         group = factor(sets, levels = c("single", "multiple"))) %>%
+  ggplot(aes(time, combined.load, group = paste(participant, sets), color = sets)) + geom_line() + theme_minimal() %>%
+print()
+
+
+```
+
