@@ -3,17 +3,67 @@ title: "Arbeidskrav 5"
 output:
   pdf_document: default
   html_document: default
+  word_document: default
 editor_options:
   chunk_output_type: console
+bibliography: references.bib
 ---
 
-```{r, echo = FALSE, eval = FALSE, warning = FALSE} 
+# Introduksjon
+
+ 
+
+Styrketrening forbedrer muskelstyrke, muskelmasse, benmasse og tykkelse på bindevev [@kraemer2002].Det er mange ulike faktorer som kan påvirke adaptasjonene av styrketrening. En av disse faktorene kan være det totale volumet man trener i form av hvor mange sett man gjennomfører. Her er det forskjellige meninger om hva som kan være det mest gunstige, Carpinelli et al. [@carpinelli1998a] Mener for eksempel at det ikke er noen forskjell mellom et sett og tre sett. Dette bryter med mye av det som er vist i andre studier, hvor man ofte har en større styrke økning gjennom å trene flere sett [@galvã£o2005] [@kelly2007]. Hvorfor noen studier hevder en får større økning i styrke gjennom flere sett, kan ha en sammenheng med økning i muskelhypertrofi [@rønnestad2007].
+
+På bakgrunn av dette ønsker man i denne studien å se på forskjellen mellom styrke økning i et og tre sett over en 12 ukers treningsintervensjon. For å forsøke å fjerne individuelle forskjeller mellom forsøkspersonene, trente alle samme intervensjon, men på forskjellig ben. Man ønsker å se hvordan et og tre sett vil påvirke muskelstyrken og kroppssammensetningen.
+
+#  Metode
+
+ 
+
+Førti en mannlige og kvinnelige deltakere ble rekruttert med kriteriene: at de var mellom 18 og 40 år, og at de ikke røykte. Noen ble og ekskludert på grunn av for høy treningsstatus (trent mer enn en gang gjennomsnittlig i uka siste 12 måneder), intoleranse mot lokal bedøvelse, nedsatt muskelstyrke på bakgrunn av nåværende eller tidligere skade, og inntak av medisiner som kan påvirke treningsadaptasjonene. Under data analysene ble syv deltakere ekskludert på bakgrunn at de ikke hadde fullført minst 85% av treningen. Ved pretest var det ingen signifikante forskjeller mellom gruppene.
+
+ 
+
+Treningsintervensjonen bestod av 12 uker med helkropps styrketrening. Hver forsøksperson ble hvert bein tilfeldig delt inn i to forskjellige treningsprotokoller, et bein trente et sett (singel sett), og et bein trente tre sett (multi sett). Hver deltaker gjennomførte begge protokollene. Muskelstyrke ble målt før treningsintervensjonen startet, og etter den var ferdig. Kroppssammensetning ble og målt før og etter treningsintervensjonen. Deltakerne trente tre økter i uka.  
+
+ 
+
+## Treningsprotokoll:
+
+ 
+
+Før hver treningsøkt gjennomførte alle deltakerne en standardisert oppvarming. Den bestod av 5 minutter sykling på en ergometersykkel, etterfulgt av 10 repetisjoner hver i ulike kroppsvekt øvelser (armhevinger, sit-ups, rygg-hev og knebøy), og 10 repetisjoner på 50% av en repetisjon maksimum (1RM) i hver av øvelsene de skulle trene. Ben øvelsene ble gjennomført i følgende rekkefølge: et bens benpress, kne ekstensjon og kne fleksjon. Alle ben øvelsene ble gjennomført som enten ett sett eller tre sett. Singel settet ble gjennomført mellom sett to og tre i multi settet. Etter ben øvelsene ble det gjennomført to sett på følgende overkroppsøvelser: bilateral benk press, ned trekk og sittende roing. Pausen mellom settene varte fra 90-180 sekunder. Treningsintensiteten endret seg gradvis gjennom intervensjonen, fra 10RM de første to ukene, så 8RM de påfølgende tre ukene, og 7RM de siste syv ukene. Det var minst 48 t imellom hver økt, det ble og gitt en standardisert drikke etter hver trening for å starte restutisjonsfasen.
+
+## Tester:
+
+ 
+
+Maksimal styrke (1RM) ble testet i et bens benpress og kne fleksjon. Forsøkspersonene gjennomførte en spesifikk oppvarming før forsøkene. Oppvarmingen bestod av 10, 6 og 3 repetisjoner på henholdsvis 50, 75 og 85% av predikert maksimal styrke. Etter oppvarmingen ble 1RM funnet med å øke motstanden progressivt frem til en ikke klarte å gjennomføre en godkjent repetisjon. Den høyeste godkjente vekta ble definert som 1RM. Hver person fikk fire til seks forsøk på hver vekt.
+
+ 
+
+Kroppssammensetning ble målt ved pretest og posttest gjennom bruk av DXA-scann, ved bruk av en standard protokoll. Før gjennomføring av testen hadde deltakerne fastet i 2 timer, og ikke trent de siste 48 timene.
+
+ 
+
+## Statistiske analyser
+
+ 
+
+Statistiske analyser ble gjennomført i Rstudio (versjon 1.4.1717). Alle tall som er presentert i tekst er oppgitt som gjennomsnitt ± standardavvik og alle analyser er gjort på prosentvis endring fra pretest til posttest, med mindre annet er oppgitt. Statistisk signifikans er satt til P \< 0,05.
+
+# Resultat
+
+Tolv uker styrketrening, to til tre ganger i uken førte til en signifikant større endring i lean body mass i multi sett gruppa kontra singel sett gruppa (hhv. 3,32 ± 4,39% og 2,04 ± 3,71%, P \< 0,001, T = 26,63) Det første og til en signifikant større økning i muskelstyrke for samme gruppe (hhv. 31,0 ± 14,2% og 24,5 ± 12,9%, P \< 0,001, T = 12,35)
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, include=FALSE, results="hide"}
 library(exscidata)
 data("dxadata"); data("strengthvolume")
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
-```{r, echo = FALSE, eval = FALSE, warning = FALSE} 
+```{r, echo=FALSE, message=FALSE, warning=FALSE, include=FALSE, results="hide"}
 library(tidyverse); library(exscidata)
 data("dxadata")
 
@@ -37,14 +87,17 @@ sdata %>%
   group_by(sets) %>% 
 summarise(m = mean(prosentvis.endring),
             sd = sd(prosentvis.endring)) %>%
+  print()
   
-print()
+dxa1 <- lm(post ~ pre + sex + sets, data = sdata)
 
+summary(dxa1)
+plot(dxa1)
 
 
 ```
 
-```{r, echo = FALSE, eval = FALSE, warning = FALSE, message = FALSE} 
+```{r, echo=FALSE, message=FALSE, warning=FALSE, include=FALSE, results="hide"}
 styrke.s <- strengthvolume %>%
   filter(!is.na(load)) %>%
   group_by(exercise) %>%
@@ -63,13 +116,19 @@ styrke.s <- strengthvolume %>%
     filter(!is.na(post)) %>%
     group_by(sets) %>%
     summarise(gjennomsnitt = mean(prosentvis.endring),
-              sd = sd(prosentvis.endring)) 
+              sd = sd(prosentvis.endring)) %>%
+    print()
+  
+  styrke1 <- lm(post ~ pre + sex + sets, data = styrke.s)
+  
+  summary(styrke1)
+  plot(styrke1)
     
   
 
 ```
 
-```{r, echo = FALSE, eval = FALSE, warning = FALSE}
+```{r,  echo=FALSE, message=FALSE, warning=FALSE, include=TRUE, results="hide", fig.cap = "Hei"}
 modell <- strengthvolume %>%
   group_by(exercise) %>%
   mutate(scaled.load = load / max(load, na.rm = TRUE)) %>%
@@ -77,6 +136,12 @@ modell <- strengthvolume %>%
   summarise(combined.load = mean(scaled.load, na.rm = TRUE)) %>%
   ungroup() %>%
   print()
+
+
+
+```
+
+```{r  echo=FALSE, message=FALSE, warning=FALSE, include=TRUE, results="hide", fig.cap = "hei"}
 
 modell %>%
   filter(!is.na(combined.load), time == factor(time, levels = c("pre", "post"))) %>%
@@ -88,3 +153,16 @@ print()
 
 ```
 
+# Diskusjon
+
+Tolv uker styrketrening vil føre til økt styrke og økt hypertrofi i beina. Både om man trener et sett eller tre sett. Det var signifikant forskjell i økning mellom benene på de som trente et og tre sett, hvor man ser en større økning i benet som trente tre sett.
+
+Dette stemmer over ens med det mye av litteraturen på området viser [@kelly2007; @rønnestad2007]. I begge disse studiene fant man resulteter som samsvarer med resultatene i denne studien. Kelly et al. (2007) viser at flere sett vil være mer gunstig for utrente enn et sett. Rønnestad et al (2007) finner samme resultat for benene, selv om de ikke finner noen forskjell mellom gruppene for overkropp. Dette kan vise at det er en mulighet for at man ville fått forskjellig resultat mellom de ulike kroppsdelene.
+
+På den andre siden argumenterer en review av \@carpinelli1998a for å trene den minimale mengde volum for å oppnå den ønskede responsen. De mener at det ikke finnes noe hold i at høyest mulig volum vil gi de beste adaptasjonene til trening. De viser til mange studier hvor man ikke finner noen signifikante forskjeller mellom å trene et eller flere sett, på mange forskjellige muskelgrupper. De argumenterer og for at det vil være mer tidseffektivt å bare trene et sett, når man vil oppnå ganske like resultater med et sett som med flere sett.
+
+# Konklusjon
+
+I denne studien finner man en større økning i styrke og hypertrofi ved trening av tre sett kontra et sett for ben, over 12 uker trening med to til tre treningsøkter i uken. Dette samsvarer med det annen litteratur på området har funnet, selv om det og blir argumentert imot resultatet og hevdet at man vil oppnå samme resultat mellom et og tre sett.
+
+# Referanser
